@@ -1,34 +1,38 @@
 import Image from "next/image";
-import { Corners, SectionLabel } from "@/components/ui";
 
 export function Base() {
   return (
-    <section id="base" className="scroll-mt-26 pb-24 sm:scroll-mt-20">
-      <SectionLabel>Nuestra base</SectionLabel>
-      <div className="flex flex-wrap items-center gap-x-[clamp(32px,5vw,72px)] gap-y-10">
-        <div data-reveal="0" className="flex flex-[1_1_300px] flex-col gap-4">
-          <h2 className="h-section">Base operativa en Algarrobo</h2>
-          <p className="m-0 max-w-[44ch] text-[16px] leading-[1.55] text-text/80">
-            Instalaciones propias sobre la ruta al sur, en Juan Cousté, Estación Algarrobo (Villarino).
-            Desde acá coordinamos cada viaje hacia la Patagonia.
+    <section
+      id="base"
+      data-progress="view"
+      aria-labelledby="base-title"
+      className="relative isolate flex min-h-[86svh] scroll-mt-16 items-end overflow-hidden bg-night text-ink"
+    >
+      <div className="absolute inset-0 -z-10">
+        <Image
+          src="/img/base.jpg"
+          alt="Base operativa de Transporte Lehman en Juan Cousté, Estación Algarrobo"
+          fill
+          sizes="100vw"
+          className="base-img object-cover object-[center_40%]"
+        />
+        {/* taste-skill-ignore: neutral scrim over the photo */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_top,var(--color-night)_4%,rgba(7,12,31,0.55)_45%,rgba(7,12,31,0.1)_100%)]" />
+      </div>
+      <div className="wrap pb-[clamp(48px,10vh,120px)]">
+        <h2 id="base-title" className="h-display max-w-[14ch]" data-reveal="0">
+          Base operativa en Algarrobo
+        </h2>
+        <div className="mt-6 flex flex-wrap items-end gap-x-14 gap-y-6" data-reveal="120">
+          <p className="m-0 max-w-[46ch] text-[17px] leading-[1.6] text-ink-dim">
+            Instalaciones propias sobre la ruta al sur, en Juan Cousté, Estación Algarrobo (Villarino). Desde
+            acá coordinamos cada viaje hacia la Patagonia.
           </p>
-          <span className="text-[14px] font-semibold text-brand">José Giamberardino y Bahía Blanca</span>
+          <p className="m-0 text-[15px] leading-[1.5] text-ink">
+            José Giamberardino y Bahía Blanca
+            <span className="block text-muted tabular-nums">38°53′S · 63°08′O</span>
+          </p>
         </div>
-        <figure
-          data-reveal="150"
-          className="blueprint m-0 aspect-[4/3] min-w-0 flex-[1.6_1_min(100%,440px)]"
-        >
-          <div className="relative size-full overflow-hidden">
-            <Image
-              src="/img/base.jpg"
-              alt="Base operativa de Transporte Lehman en Algarrobo"
-              fill
-              sizes="(min-width: 1200px) 640px, (min-width: 800px) 60vw, 100vw"
-              className="object-cover object-[center_40%] transition-[scale] duration-800 ease-standard hover:scale-[1.05]"
-            />
-          </div>
-          <Corners />
-        </figure>
       </div>
     </section>
   );

@@ -23,6 +23,19 @@
   --color-brand-bright: #4f74e8;
   --color-brand-sky: #a9c0ff;
 
+  /* Night palette (DESIGN.md) */
+  --color-night: #070c1f;
+  --color-night-raised: #0d1532;
+  --color-night-line: #1b2650;
+  --color-ink: #eef2fb;
+  --color-ink-dim: #a9b4d0;
+  --color-muted: #7684a8;
+  --color-amber: #ffb23e;
+  --color-on-amber: #1a1205;
+  --color-ok: #4ade80;
+  --color-paper: #f2f2f3;
+  --color-on-paper: #1d1f20;
+
   --radius-md: 4px;
 
   --shadow-sm: 0 1px 2px color-mix(in srgb, #2b2b2d 14%, transparent);
@@ -31,38 +44,13 @@
 
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --ease-emph: cubic-bezier(0.05, 0.7, 0.1, 1);
-
-  --animate-drift-16: lh-drift 16s ease-in-out infinite alternate;
-  --animate-drift-14: lh-drift 14s ease-in-out infinite alternate;
-  --animate-road: lh-road 1.2s linear infinite;
-  --animate-truck: lh-truck 7s cubic-bezier(0.45, 0, 0.55, 1) infinite;
-  --animate-marquee: lh-marquee 28s linear infinite;
-  --animate-pulse-dot: lh-pulse 1.6s ease-out infinite;
-  --animate-pulse-fab: lh-pulse 2.4s ease-out infinite;
-
-  @keyframes lh-drift {
-    0% { background-position: 0% 50%; }
-    100% { background-position: 100% 50%; }
-  }
-  @keyframes lh-road {
-    to { background-position: -96px 0; }
-  }
-  @keyframes lh-truck {
-    0% { left: 0%; }
-    100% { left: 100%; }
-  }
-  @keyframes lh-marquee {
-    to { transform: translateX(-50%); }
-  }
-  @keyframes lh-pulse {
-    0% { box-shadow: 0 0 0 0 rgba(79, 116, 232, 0.6); }
-    100% { box-shadow: 0 0 0 14px rgba(79, 116, 232, 0); }
-  }
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @theme inline {
   --font-heading: var(--font-barlow-condensed), system-ui, sans-serif;
   --font-body: var(--font-barlow), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
 }
 
 :root {
@@ -81,8 +69,8 @@
     line-height: 1.55;
     font-weight: 400;
     text-wrap: pretty;
-    background: var(--color-bg);
-    color: var(--color-text);
+    background: var(--color-night);
+    color: var(--color-ink);
     font-family: var(--font-body);
   }
   h1, h2, h3, h4, h5, h6 {
@@ -93,58 +81,14 @@
     margin: 0 0 var(--space-2);
   }
   p { margin: 0 0 var(--space-3); }
-  a { color: var(--color-accent-700); text-underline-offset: 3px; }
-  a:hover { color: var(--color-accent-900); }
+  a { color: inherit; text-underline-offset: 3px; }
   img { display: block; max-width: 100%; }
   figure { margin: 0; }
   :focus { outline: none; }
-  :focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
-  ::selection { background: color-mix(in srgb, var(--color-accent) 30%, transparent); }
+  :focus-visible { outline: 2px solid var(--color-amber); outline-offset: 2px; }
 }
 
 @layer components {
-  /* — blueprint frame with "+" registration marks — */
-  .blueprint {
-    position: relative;
-    border: 1px solid var(--color-divider);
-    border-radius: 0;
-  }
-  .blueprint > .corner {
-    position: absolute; width: 11px; height: 11px;
-    color: color-mix(in srgb, var(--color-text) 55%, transparent);
-  }
-  .blueprint > .corner::before, .blueprint > .corner::after {
-    content: ""; position: absolute; background: currentColor;
-  }
-  .blueprint > .corner::before { left: 5px; top: 0; width: 1px; height: 100%; }
-  .blueprint > .corner::after { top: 5px; left: 0; width: 100%; height: 1px; }
-  .blueprint > .corner.tl { top: -6px; left: -6px; }
-  .blueprint > .corner.tr { top: -6px; right: -6px; }
-  .blueprint > .corner.bl { bottom: -6px; left: -6px; }
-  .blueprint > .corner.br { bottom: -6px; right: -6px; }
-
-  /* — buttons — */
-  .btn {
-    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-    cursor: pointer; text-decoration: none;
-    font-family: var(--font-heading); font-weight: var(--font-heading-weight);
-    font-size: 14px; line-height: 1.2; color: var(--color-text);
-    background: transparent; border: 1px solid var(--color-divider);
-    padding: var(--space-2) calc(var(--space-3) * 1.2);
-    border-radius: 0;
-  }
-  .btn svg { display: block; }
-  .btn:disabled { opacity: 0.45; cursor: not-allowed; }
-  .btn-primary { background: var(--color-accent); color: var(--color-bg); border-color: var(--color-accent); }
-  .btn-primary:hover { background: var(--color-accent-600); }
-  .btn-primary:active { background: var(--color-accent-700); }
-  .btn-secondary { border-color: var(--color-divider); }
-  .btn-secondary:hover { background: color-mix(in srgb, var(--color-text) 7%, transparent); }
-  .btn-secondary:active { background: color-mix(in srgb, var(--color-text) 14%, transparent); }
-  .btn-ghost { color: var(--color-accent); padding-inline: var(--space-1); border-color: transparent; }
-  .btn-ghost:hover { background: color-mix(in srgb, var(--color-accent) 10%, transparent); }
-  .btn-ghost:active { background: color-mix(in srgb, var(--color-accent) 18%, transparent); }
-
   /* — forms — */
   .field > label {
     display: block; font-size: 12px; margin-bottom: 5px;
@@ -178,42 +122,9 @@
   .seg-opt:has(input:checked) { background: var(--color-accent); color: var(--color-bg); }
   .seg-opt:not(:has(input:checked)):hover { background: color-mix(in srgb, var(--color-text) 7%, transparent); }
   .seg-opt:has(input:focus-visible) { outline: 2px solid var(--color-accent); outline-offset: -2px; }
-
-  /* — navigation — */
-  .nav {
-    display: flex; align-items: center; gap: var(--space-4);
-  }
-  .nav-brand { margin-right: auto; }
-  .nav a { color: inherit; text-decoration: none; font-size: 14px; }
-  .nav a:hover { color: var(--color-accent); }
-
-  /* — shared section furniture — */
-  .eyebrow {
-    display: block; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase;
-    font-weight: 600; color: var(--color-brand); margin-bottom: 12px;
-  }
-  .rule {
-    height: 2px; margin-bottom: 32px;
-    background: linear-gradient(90deg, var(--color-brand) 0 64px, var(--color-divider) 64px);
-  }
-  .h-section {
-    font-size: clamp(32px, 4vw, 48px); line-height: 1.05; text-transform: uppercase; margin: 0;
-  }
 }
 
 /* — motion — */
-@keyframes lh-rise {
-  from { opacity: 0; transform: translateY(28px); }
-  to { opacity: 1; transform: none; }
-}
-@keyframes lh-word {
-  from { opacity: 0; transform: translateY(0.5em); }
-  to { opacity: 1; transform: none; }
-}
-/* Above-the-fold entrances run in CSS so they start at first paint, before hydration. */
-.rise { animation: lh-rise 650ms var(--ease-emph) both; animation-delay: var(--d, 0ms); }
-.word { display: inline-block; animation: lh-word 700ms var(--ease-emph) backwards; animation-delay: var(--d, 0ms); }
-
 /* Scroll reveals: hidden only once JS is known to run (the `js` class is set in <head>). */
 @media (prefers-reduced-motion: no-preference) {
   .js [data-reveal]:not(.revealed) { opacity: 0; }

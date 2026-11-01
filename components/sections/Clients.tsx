@@ -1,33 +1,37 @@
-import { SectionLabel } from "@/components/ui";
 import { CLIENTS } from "@/lib/site";
 
-export function Clients() {
-  const fade = "linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent)";
+function Row({ reverse = false }: { reverse?: boolean }) {
   return (
-    <section id="clientes" className="scroll-mt-26 pb-24 sm:scroll-mt-20">
-      <SectionLabel>Confían en nosotros</SectionLabel>
-      <h2 className="sr-only">Clientes de Transporte Lehman</h2>
-      <ul className="sr-only">
-        {CLIENTS.map((c) => (
-          <li key={c}>{c}</li>
-        ))}
-      </ul>
-      <div
-        aria-hidden="true"
-        className="overflow-hidden bg-brand py-7 text-white"
-        style={{ WebkitMaskImage: fade, maskImage: fade }}
-      >
-        <div className="flex w-max animate-marquee">
-          {[...CLIENTS, ...CLIENTS].map((c, i) => (
-            <div
-              key={i}
-              className="flex items-center gap-14 pr-14 font-heading text-[clamp(24px,3vw,34px)] font-semibold tracking-[0.04em] whitespace-nowrap uppercase"
-            >
-              {c}
-              <span className="size-2.5 rotate-45 border-[1.5px] border-white/70" />
-            </div>
+    <div className={`marquee-track ${reverse ? "reverse" : ""}`}>
+      {[...CLIENTS, ...CLIENTS].map((c, i) => (
+        <span
+          key={i}
+          className="flex items-center gap-10 pr-10 font-heading text-[clamp(40px,6.4vw,96px)] leading-[1.05] font-bold tracking-[0.01em] whitespace-nowrap text-ink/40 uppercase transition-colors duration-300 hover:text-ink sm:gap-16 sm:pr-16"
+        >
+          {c}
+          <span className="size-3 bg-amber sm:size-4" />
+        </span>
+      ))}
+    </div>
+  );
+}
+
+export function Clients() {
+  return (
+    <section id="clientes" aria-labelledby="clientes-title" className="section-y scroll-mt-16 overflow-hidden bg-night text-ink">
+      <div className="wrap">
+        <h2 id="clientes-title" className="m-0 font-heading text-[clamp(28px,3vw,40px)] font-bold uppercase" data-reveal="0">
+          Confían en nosotros
+        </h2>
+        <ul className="sr-only">
+          {CLIENTS.map((c) => (
+            <li key={c}>{c}</li>
           ))}
-        </div>
+        </ul>
+      </div>
+      <div className="marquee mt-10 grid gap-2" aria-hidden="true">
+        <Row />
+        <Row reverse />
       </div>
     </section>
   );

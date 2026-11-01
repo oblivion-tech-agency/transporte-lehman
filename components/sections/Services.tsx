@@ -1,50 +1,70 @@
-import type { ComponentType } from "react";
-import { MapPin, Menu, Package, ShieldCheck } from "@/components/icons";
-import { Corners, SectionLabel } from "@/components/ui";
+import Image from "next/image";
 
-const SERVICES: { icon: ComponentType<{ size?: number; stroke?: string }>; title: string; body: string }[] = [
+const ROWS = [
   {
-    icon: Package,
+    img: "/img/b.jpg",
+    alt: "Iveco Hi-Way de Transporte Lehman cargando pallets en depósito",
+    figure: "28",
+    unit: "pallets",
     title: "Carga paletizada",
-    body: "Semirremolques de 14,50 m con lona y carga lateral, con capacidad para 28 pallets.",
+    body: "Semirremolques de 14,50 m con lona y carga lateral, con capacidad para 28 pallets por viaje.",
   },
   {
-    icon: Menu,
+    img: "/img/c.jpg",
+    alt: "Scania de Transporte Lehman con batea en depósito",
+    figure: "12",
+    unit: "fajas",
     title: "Carga suelta",
-    body: "Cada unidad lleva 12 fajas para asegurar cargas sueltas y voluminosas.",
-  },
-  {
-    icon: MapPin,
-    title: "Rastreo satelital",
-    body: "Todos los equipos cuentan con rastreador satelital full durante todo el viaje.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Protocolos internos",
-    body: "Trabajamos bajo estrictos protocolos para garantizar la integridad de sus bienes.",
+    body: "Cada unidad lleva 12 fajas para asegurar cargas sueltas y voluminosas durante todo el recorrido.",
   },
 ];
 
 export function Services() {
   return (
-    <section id="servicios" className="scroll-mt-26 pb-24 sm:scroll-mt-20">
-      <SectionLabel>Servicios</SectionLabel>
-      <h2 className="h-section mb-10 max-w-[22ch]">Cargas que llegan a tiempo y en buen estado</h2>
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,250px),1fr))] gap-8">
-        {SERVICES.map(({ icon: Icon, title, body }, i) => (
-          <article
-            key={title}
-            data-reveal={i * 90}
-            className="blueprint flex flex-col gap-3.5 p-6 transition-[translate,border-color,box-shadow] duration-300 ease-standard hover:-translate-y-1.5 hover:border-brand hover:shadow-md"
-          >
-            <Corners />
-            <div className="flex size-12 items-center justify-center bg-brand">
-              <Icon size={28} stroke="#fff" />
-            </div>
-            <h3 className="m-0 text-[22px] uppercase">{title}</h3>
-            <p className="m-0 text-[15px] leading-[1.55] text-text/78">{body}</p>
-          </article>
-        ))}
+    <section id="servicios" aria-labelledby="servicios-title" className="section-y scroll-mt-16 bg-night text-ink">
+      <div className="wrap">
+        <div className="grid gap-6 lg:grid-cols-[1.2fr_1fr] lg:items-end">
+          <h2 id="servicios-title" className="h-display" data-reveal="0">
+            Lo que movemos
+          </h2>
+          <p className="m-0 max-w-[44ch] text-[17px] leading-[1.6] text-ink-dim" data-reveal="120">
+            Cargas generales desde cualquier punto del país, con equipos preparados para cada tipo de
+            mercadería.
+          </p>
+        </div>
+
+        <div className="mt-16 grid gap-20 lg:mt-24 lg:gap-28">
+          {ROWS.map((r, i) => (
+            <article
+              key={r.title}
+              className={`grid items-center gap-8 lg:grid-cols-2 lg:gap-16 ${i % 2 ? "lg:[&>figure]:order-2" : ""}`}
+            >
+              <figure data-clip className="relative m-0 aspect-[4/3] overflow-hidden">
+                <Image
+                  src={r.img}
+                  alt={r.alt}
+                  fill
+                  sizes="(min-width: 1024px) 50vw, 100vw"
+                  className="object-cover"
+                />
+              </figure>
+              <div>
+                <p className="m-0 flex items-baseline gap-3 font-heading font-bold uppercase" data-reveal="100">
+                  <span className="text-[clamp(88px,11vw,168px)] leading-[0.8] text-amber tabular-nums">
+                    {r.figure}
+                  </span>
+                  <span className="text-[clamp(24px,2.6vw,36px)] text-ink-dim">{r.unit}</span>
+                </p>
+                <h3 className="mt-6 mb-0 font-heading text-[clamp(30px,3vw,42px)] leading-none font-bold uppercase" data-reveal="180">
+                  {r.title}
+                </h3>
+                <p className="mt-4 mb-0 max-w-[40ch] text-[17px] leading-[1.6] text-ink-dim" data-reveal="240">
+                  {r.body}
+                </p>
+              </div>
+            </article>
+          ))}
+        </div>
       </div>
     </section>
   );

@@ -1,0 +1,248 @@
+/* Night redesign — hero, corridor and shared motion. Tokens live in globals.css (@theme). */
+
+/* ── Nav: transparent over the hero, solid once the page scrolls ─────────── */
+.site-nav {
+  transition: background-color 300ms var(--ease-standard), border-color 300ms var(--ease-standard),
+    backdrop-filter 300ms var(--ease-standard);
+}
+/* Phones: the links row sits over the photo, so the bar is always solid there. */
+@media (max-width: 1023px) {
+  .site-nav { background-color: color-mix(in srgb, var(--color-night) 92%, transparent); }
+}
+html[data-scrolled] .site-nav {
+  background-color: color-mix(in srgb, var(--color-night) 92%, transparent);
+  border-color: var(--color-night-line);
+}
+
+/* ── Buttons ─────────────────────────────────────────────────────────────── */
+.btn-amber {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  min-height: 52px; padding: 0 24px; border-radius: 2px;
+  font-family: var(--font-heading); font-weight: 700; font-size: 17px; letter-spacing: 0.02em;
+  text-transform: uppercase; text-decoration: none;
+  background: var(--color-amber); color: var(--color-on-amber);
+  transition: background-color 150ms var(--ease-standard), translate 150ms var(--ease-standard);
+}
+.btn-amber:hover { background: #ffc266; color: var(--color-on-amber); }
+.btn-amber:active { translate: 0 1px; }
+.btn-amber .arrow { transition: translate 200ms var(--ease-out-expo); }
+.btn-amber:hover .arrow { translate: 4px 0; }
+
+.btn-line {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  min-height: 52px; padding: 0 22px; border-radius: 2px;
+  font-family: var(--font-heading); font-weight: 600; font-size: 17px; letter-spacing: 0.02em;
+  text-transform: uppercase; text-decoration: none; color: var(--color-ink);
+  border: 1px solid color-mix(in srgb, var(--color-ink) 28%, transparent);
+  transition: background-color 150ms var(--ease-standard), border-color 150ms var(--ease-standard);
+}
+.btn-line:hover {
+  color: var(--color-ink);
+  background: color-mix(in srgb, var(--color-ink) 8%, transparent);
+  border-color: color-mix(in srgb, var(--color-ink) 50%, transparent);
+}
+
+/* ── Hero ────────────────────────────────────────────────────────────────── */
+/* taste-skill-ignore-start: photo scrims and masks (the allowed neutral-over-photo case) */
+.hero-photo {
+  position: absolute; inset: 0 0 auto 0; height: 64svh;
+  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent);
+  mask-image: linear-gradient(to bottom, #000 55%, transparent);
+}
+@media (min-width: 1024px) {
+  .hero-photo {
+    inset: 0 0 0 auto; width: 62%; height: auto;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 38%);
+    mask-image: linear-gradient(to right, transparent 0%, #000 38%);
+  }
+}
+/* Scroll parallax: the photo lags and dims as the hero leaves. */
+.hero-photo-track {
+  position: absolute; inset: 0;
+  translate: 0 calc(var(--p, 0) * 18%);
+  opacity: calc(1 - var(--p, 0) * 0.6);
+}
+.hero-photo-img { animation: hero-settle 1800ms var(--ease-out-expo) both; }
+@keyframes hero-settle {
+  from { opacity: 0; scale: 1.14; }
+  40% { opacity: 1; }
+  to { opacity: 1; scale: 1; }
+}
+.hero-shade {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    linear-gradient(to top, var(--color-night) 0%, transparent 38%),
+    radial-gradient(120% 80% at 70% 40%, transparent 40%, color-mix(in srgb, var(--color-night) 70%, transparent));
+}
+
+/* taste-skill-ignore-end */
+
+/* Headline: each line rises out of its own mask. */
+.mline { display: block; overflow: clip; padding-block: 0.06em; margin-block: -0.06em; }
+.mline > span {
+  display: inline-block;
+  animation: mline-rise 1100ms var(--ease-out-expo) both;
+  animation-delay: var(--d, 0ms);
+}
+@keyframes mline-rise {
+  from { transform: translateY(108%); }
+  to { transform: none; }
+}
+.fade-up { animation: fade-up 900ms var(--ease-out-expo) both; animation-delay: var(--d, 0ms); }
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Tracking panel (an interface fragment, so it may use mono). */
+.tracker {
+  font-family: var(--font-mono); font-size: 12px; line-height: 1.5;
+  background: color-mix(in srgb, var(--color-night-raised) 94%, transparent);
+  border: 1px solid var(--color-night-line);
+  box-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.7);
+}
+.tracker-row { animation: tracker-type 600ms var(--ease-out-expo) both; animation-delay: var(--d, 0ms); }
+@keyframes tracker-type {
+  from { opacity: 0; clip-path: inset(0 100% 0 0); }
+  to { opacity: 1; clip-path: inset(0 0 0 0); }
+}
+.live-dot { position: relative; width: 8px; height: 8px; border-radius: 50%; background: var(--color-amber); }
+.live-dot::after {
+  content: ""; position: absolute; inset: 0; border-radius: 50%; border: 1px solid var(--color-amber);
+  animation: live-ping 1.8s var(--ease-out-expo) infinite;
+}
+@keyframes live-ping {
+  from { transform: scale(1); opacity: 0.9; }
+  to { transform: scale(3); opacity: 0; }
+}
+
+/* Route strip along the bottom of the hero. */
+.strip-city[data-lit] .strip-dot { background: var(--color-amber); border-color: var(--color-amber); }
+.strip-city[data-lit] .strip-label { color: var(--color-ink); }
+.strip-dot, .strip-label { transition: background-color 300ms, border-color 300ms, color 300ms; }
+
+/* Custom rig: wheels spin and the body rides while moving; headlights always on. */
+.truck-wheel { transform-origin: 0 0; }
+[data-moving] .truck-wheel { animation: wheel-spin 0.5s linear infinite; }
+[data-moving] .truck-body { animation: truck-ride 0.42s ease-in-out infinite alternate; }
+.truck-beam { animation: beam-flicker 3s ease-in-out infinite alternate; }
+@keyframes wheel-spin { to { transform: rotate(360deg); } }
+@keyframes truck-ride { to { transform: translateY(-0.5px); } }
+@keyframes beam-flicker { from { opacity: 0.75; } to { opacity: 1; } }
+
+/* ── Corridor ────────────────────────────────────────────────────────────── */
+.corridor { height: 380vh; }
+.corridor-sticky { position: sticky; top: 0; height: 100svh; }
+@media (max-width: 1023px) {
+  .corridor { height: 340vh; }
+}
+
+.stop-name { animation: mline-rise 700ms var(--ease-out-expo) both; }
+.stop-meta { animation: fade-up 600ms var(--ease-out-expo) 120ms both; }
+
+.map-stop { transition: fill 300ms, stroke 300ms; }
+.map-stop[data-passed] { fill: var(--color-amber); stroke: var(--color-amber); }
+.map-label { transition: fill 300ms; }
+.map-label[data-passed] { fill: var(--color-ink); }
+.map-ring { transform-box: fill-box; transform-origin: center; animation: map-ring 2s var(--ease-out-expo) infinite; }
+@keyframes map-ring {
+  from { transform: scale(0.6); opacity: 0.9; }
+  to { transform: scale(2.6); opacity: 0; }
+}
+
+.stop-row { transition: color 300ms; }
+.stop-row[data-state="passed"] { color: var(--color-ink-dim); }
+.stop-row[data-state="active"] { color: var(--color-ink); }
+.stop-row[data-state="active"] .stop-dot { background: var(--color-amber); border-color: var(--color-amber); }
+.stop-row[data-state="passed"] .stop-dot { background: var(--color-ink-dim); border-color: var(--color-ink-dim); }
+
+/* Ambient snow once the route passes Comodoro. taste-skill-ignore: particles, not a gradient fill */
+.snow {
+  position: absolute; inset: 0; pointer-events: none; opacity: var(--snow, 0);
+  background-image:
+    radial-gradient(1.5px 1.5px at 20% 30%, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 70% 60%, #fff 50%, transparent 51%),
+    radial-gradient(2px 2px at 45% 85%, rgba(255, 255, 255, 0.8) 50%, transparent 51%),
+    radial-gradient(1px 1px at 85% 15%, #fff 50%, transparent 51%);
+  background-size: 180px 180px, 140px 140px, 220px 220px, 120px 120px;
+  animation: snow-fall 9s linear infinite;
+}
+@keyframes snow-fall {
+  to { background-position: 30px 180px, -20px 140px, 20px 220px, -10px 120px; }
+}
+
+/* ── Reduced motion: final states, no sticky stage ───────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .corridor { height: auto; }
+  .corridor-sticky { position: relative; height: auto; }
+  .hero-photo-track { translate: none; opacity: 1; }
+}
+
+/* ── Page-wide night theme ───────────────────────────────────────────────── */
+::selection { background: color-mix(in srgb, var(--color-amber) 40%, transparent); color: var(--color-ink); }
+.wrap { margin-inline: auto; width: 100%; max-width: 1320px; padding-inline: clamp(20px, 5vw, 72px); }
+.section-y { padding-block: clamp(6rem, 14vh, 11rem); }
+.h-display {
+  font-family: var(--font-heading); font-weight: 700; text-transform: uppercase;
+  font-size: clamp(42px, 5.6vw, 88px); line-height: 0.92; letter-spacing: -0.005em; margin: 0;
+  text-wrap: balance;
+}
+
+/* Photo reveal: a mask wipes up while the image settles from a slight zoom.
+   The mask goes on the children: IntersectionObserver ignores a fully clipped target. */
+.js [data-clip] > * { clip-path: inset(100% 0 0 0); transition: clip-path 1100ms var(--ease-out-expo); }
+.js [data-clip] img { scale: 1.18; transition: clip-path 1100ms var(--ease-out-expo), scale 1600ms var(--ease-out-expo); }
+.js [data-clip].revealed > * { clip-path: inset(0 0 0 0); }
+.js [data-clip].revealed img { scale: 1; }
+.js [data-clip].revealed.group:hover img, html:not(.js) .group:hover img { scale: 1.05; }
+
+/* Check marks draw themselves once their list is revealed. */
+.check-path { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 600ms var(--ease-out-expo); transition-delay: var(--d, 0ms); }
+.revealed .check-path, html:not(.js) .check-path { stroke-dashoffset: 0; }
+
+/* Bitren: the photo frame opens to full bleed as the section scrolls. */
+.bitren { height: 230vh; }
+.bitren-sticky { position: sticky; top: 0; height: 100svh; overflow: hidden; }
+.bitren-frame {
+  --e: min(1, calc(var(--p, 0) * 1.7));
+  position: absolute; inset: 0;
+  clip-path: inset(calc((1 - var(--e)) * 14%) calc((1 - var(--e)) * 9%));
+}
+.bitren-frame img { scale: calc(1.15 - var(--e) * 0.15); }
+.bitren-copy {
+  --c: clamp(0, calc((var(--p, 0) - 0.38) * 3.2), 1);
+  opacity: var(--c); translate: 0 calc((1 - var(--c)) * 40px);
+}
+
+/* Fleet: three columns drift at different speeds. */
+.fleet-col { translate: 0 calc((var(--p, 0.5) - 0.5) * var(--k, 0px)); }
+
+/* Base: full-bleed photo with slow parallax. */
+.base-img { translate: 0 calc((var(--p, 0.5) - 0.5) * 14%); scale: 1.16; }
+
+/* Clients marquee, two rows in opposite directions. */
+@keyframes lh-marquee { to { transform: translateX(-50%); } }
+.marquee-track { display: flex; width: max-content; animation: lh-marquee 38s linear infinite; }
+.marquee-track.reverse { animation-direction: reverse; animation-duration: 46s; }
+.marquee:hover .marquee-track { animation-play-state: paused; }
+
+/* Quote form on a paper card. */
+.order-form .input { background: #fff; border-color: #cfd3dc; color: var(--color-on-paper, #1d1f20); caret-color: var(--color-brand); }
+.order-form .input:hover { border-color: #9aa1b2; }
+.order-form .input:focus-visible { border-color: var(--color-brand); outline: 2px solid var(--color-brand); outline-offset: 0; }
+.order-form .seg { border-color: #cfd3dc; background: #fff; }
+.order-form .seg-opt + .seg-opt { border-left-color: #cfd3dc; }
+.order-form .seg-opt:has(input:checked) { background: var(--color-night); color: #fff; }
+.order-form .seg-opt:has(input:focus-visible) { outline-color: var(--color-brand); }
+.order-form .field > label, .order-form legend { color: #4a5068; }
+
+@media (prefers-reduced-motion: reduce) {
+  .bitren { height: auto; }
+  .bitren-sticky { position: relative; height: 100svh; }
+  .bitren-frame { clip-path: none; }
+  .bitren-frame img { scale: 1; }
+  .bitren-copy { opacity: 1; translate: none; }
+  .fleet-col, .base-img { translate: none; }
+  .js [data-clip] > * { clip-path: none; }
+  .js [data-clip] img { scale: 1; }
+}

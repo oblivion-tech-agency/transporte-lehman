@@ -26,15 +26,15 @@ export const CLIENTS = [
   "Continental Maderas S.A.",
 ];
 
-export type Stop = { name: string; prov: string; km: string; filled: boolean };
+export type Stop = { name: string; short: string; prov: string; km: string; kmN: number; filled: boolean; note: string };
 
 export const STOPS: Stop[] = [
-  { name: "Buenos Aires", prov: "Origen · AMBA", km: "0 km", filled: true },
-  { name: "Algarrobo", prov: "Base operativa · Villarino", km: "≈ 720 km", filled: true },
-  { name: "Viedma", prov: "Río Negro", km: "≈ 960 km", filled: false },
-  { name: "Puerto Madryn", prov: "Chubut", km: "≈ 1.380 km", filled: false },
-  { name: "Comodoro Rivadavia", prov: "Chubut", km: "≈ 1.800 km", filled: false },
-  { name: "Río Gallegos", prov: "Santa Cruz", km: "≈ 2.600 km", filled: false },
-  { name: "Río Grande", prov: "Tierra del Fuego", km: "≈ 2.950 km", filled: false },
-  { name: "Ushuaia", prov: "Tierra del Fuego · Destino", km: "≈ 3.150 km", filled: true },
+  { name: "Buenos Aires", short: "Bs. As.", prov: "Origen · AMBA", km: "0 km", kmN: 0, filled: true, note: "Cargamos en AMBA y en cualquier punto del país." },
+  { name: "Algarrobo", short: "Algarrobo", prov: "Base operativa · Villarino", km: "≈ 720 km", kmN: 720, filled: true, note: "Nuestra base sobre la ruta al sur. Desde acá se coordina cada viaje." },
+  { name: "Viedma", short: "Viedma", prov: "Río Negro", km: "≈ 960 km", kmN: 960, filled: false, note: "Cruzamos el río Negro y entramos a la Patagonia." },
+  { name: "Puerto Madryn", short: "Madryn", prov: "Chubut", km: "≈ 1.380 km", kmN: 1380, filled: false, note: "Costa de Chubut, entre el golfo Nuevo y la meseta." },
+  { name: "Comodoro Rivadavia", short: "Comodoro", prov: "Chubut", km: "≈ 1.800 km", kmN: 1800, filled: false, note: "Golfo San Jorge. Más de la mitad del corredor." },
+  { name: "Río Gallegos", short: "Gallegos", prov: "Santa Cruz", km: "≈ 2.600 km", kmN: 2600, filled: false, note: "Último tramo continental antes del estrecho de Magallanes." },
+  { name: "Río Grande", short: "Río Grande", prov: "Tierra del Fuego", km: "≈ 2.950 km", kmN: 2950, filled: false, note: "Ya en la isla, después del cruce en balsa." },
+  { name: "Ushuaia", short: "Ushuaia", prov: "Tierra del Fuego · Destino", km: "≈ 3.150 km", kmN: 3150, filled: true, note: "El fin del corredor. La carga llega completa y a tiempo." },
 ];

@@ -2,7 +2,6 @@
 
 import { useState, type FormEvent } from "react";
 import { CircleCheck } from "@/components/icons";
-import { Corners } from "@/components/ui";
 import { WA_URL } from "@/lib/site";
 
 const TIPOS = ["Paletizada", "Suelta", "Otra"];
@@ -47,11 +46,10 @@ function QuoteFormBody() {
 
   if (waLink) {
     return (
-      <div className="blueprint flex flex-col items-start gap-4 px-8 py-10" role="status">
-        <Corners />
-        <CircleCheck size={36} stroke="var(--color-brand)" />
-        <h3 className="m-0 text-[28px] uppercase">Pedido listo</h3>
-        <p className="m-0 max-w-[44ch] text-[15px] leading-[1.55]">
+      <div className="order-form flex flex-col items-start gap-5 bg-paper px-[clamp(24px,4vw,48px)] py-12 text-on-paper" role="status">
+        <CircleCheck size={44} stroke="var(--color-brand)" />
+        <h3 className="m-0 font-heading text-[36px] leading-none font-bold uppercase">Pedido listo</h3>
+        <p className="m-0 max-w-[44ch] text-[16px] leading-[1.55] text-[#4a5068]">
           Abrimos WhatsApp con los datos de tu viaje. Enviá el mensaje y te respondemos a la brevedad.
         </p>
         <div className="flex flex-wrap gap-3">
@@ -59,11 +57,15 @@ function QuoteFormBody() {
             href={waLink}
             target="_blank"
             rel="noopener"
-            className="btn btn-primary border-brand bg-brand text-bg hover:border-brand-deep hover:bg-brand-deep hover:text-bg"
+            className="btn-amber"
           >
             Abrir WhatsApp de nuevo
           </a>
-          <button type="button" className="btn btn-ghost" onClick={() => setWaLink(null)}>
+          <button
+            type="button"
+            className="min-h-[52px] cursor-pointer px-4 font-heading text-[17px] font-semibold tracking-[0.02em] text-brand uppercase hover:underline"
+            onClick={() => setWaLink(null)}
+          >
             Nueva cotización
           </button>
         </div>
@@ -75,9 +77,12 @@ function QuoteFormBody() {
     <form
       onSubmit={submit}
       aria-label="Pedido de cotización"
-      className="blueprint grid grid-cols-[repeat(auto-fit,minmax(min(100%,220px),1fr))] gap-x-5 gap-y-[18px] border-t-[3px] border-t-brand p-[clamp(20px,3vw,32px)]"
+      className="order-form grid grid-cols-[repeat(auto-fit,minmax(min(100%,220px),1fr))] gap-x-5 gap-y-[18px] bg-paper p-[clamp(20px,3.4vw,44px)] text-on-paper"
     >
-      <Corners />
+      <div className="col-span-full mb-2 flex flex-wrap items-baseline justify-between gap-2">
+        <h3 className="m-0 font-heading text-[clamp(26px,2.6vw,34px)] leading-none font-bold uppercase">Orden de carga</h3>
+        <span className="text-[13px] text-[#4a5068]">Respuesta por WhatsApp</span>
+      </div>
       <div className="field">
         <label htmlFor="q-nombre">Nombre y apellido *</label>
         <input id="q-nombre" name="nombre" className="input" autoComplete="name" required />
@@ -109,7 +114,7 @@ function QuoteFormBody() {
         />
       </div>
       <fieldset className="field col-span-full m-0 border-0 p-0">
-        <legend className="mb-[5px] block text-[12px] text-text/70">Tipo de carga</legend>
+        <legend className="mb-[5px] block text-[12px]">Tipo de carga</legend>
         <div className="seg flex-wrap">
           {TIPOS.map((t, i) => (
             <label key={t} className="seg-opt">
@@ -141,13 +146,9 @@ function QuoteFormBody() {
         />
       </div>
       <div className="col-span-full flex flex-wrap items-center justify-between gap-x-5 gap-y-3">
-        <span className="text-[13px] text-text/70">Al enviar se abre WhatsApp con tu consulta lista.</span>
-        <button
-          type="submit"
-          className="btn btn-primary blueprint border-brand bg-brand px-6 py-3 text-[15px] transition-colors duration-150 hover:border-brand-deep hover:bg-brand-deep"
-        >
-          <Corners />
-          Enviar pedido de cotización
+        <span className="text-[13px] text-[#4a5068]">Al enviar se abre WhatsApp con tu consulta lista.</span>
+        <button type="submit" className="btn-amber cursor-pointer border-0">
+          Enviar pedido <span className="arrow" aria-hidden="true">→</span>
         </button>
       </div>
     </form>

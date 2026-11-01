@@ -1,14 +1,14 @@
 import { Motion } from "@/components/Motion";
 import { Base } from "@/components/sections/Base";
 import { Bitren } from "@/components/sections/Bitren";
+import { Corridor } from "@/components/sections/Corridor";
 import { Clients } from "@/components/sections/Clients";
-import { CompanyStats } from "@/components/sections/CompanyStats";
 import { Fleet } from "@/components/sections/Fleet";
 import { Footer } from "@/components/sections/Footer";
 import { Hero } from "@/components/sections/Hero";
 import { Nav } from "@/components/sections/Nav";
 import { Quote } from "@/components/sections/Quote";
-import { Route } from "@/components/sections/Route";
+import { Security } from "@/components/sections/Security";
 import { Services } from "@/components/sections/Services";
 import { WhatsAppFab } from "@/components/sections/WhatsAppFab";
 import { INSTAGRAM_URL, PHONE_E164, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
@@ -52,18 +52,16 @@ export default function Home() {
       />
       <Nav />
       <Hero />
-      <main className="mx-auto max-w-[1200px] px-[clamp(20px,5vw,72px)]">
-        <CompanyStats />
+      <Corridor />
+      <main>
         <Services />
-        <Route />
-      </main>
-      <Bitren />
-      <div className="mx-auto max-w-[1200px] px-[clamp(20px,5vw,72px)]">
+        <Security />
+        <Bitren />
         <Fleet />
         <Base />
         <Clients />
         <Quote />
-      </div>
+      </main>
       <Footer />
       <WhatsAppFab />
       <Motion />

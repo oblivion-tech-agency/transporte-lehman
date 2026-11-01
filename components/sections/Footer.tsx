@@ -7,9 +7,9 @@ export function Footer() {
         <Image
           src="/img/logo.png"
           alt="Transporte Lehman"
-          width={720}
-          height={250}
-          sizes="116px"
+          width={1261}
+          height={401}
+          sizes="126px"
           className="h-10 w-auto brightness-0 invert"
         />
         <span>Matías José Lehman · Titular</span>

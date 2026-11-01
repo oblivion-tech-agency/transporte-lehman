@@ -17,10 +17,10 @@ export function Nav() {
         <Image
           src="/img/logo.png"
           alt="Transporte Lehman"
-          width={720}
-          height={250}
+          width={1261}
+          height={401}
           preload
-          sizes="127px"
+          sizes="139px"
           className="h-11 w-auto"
         />
       </a>

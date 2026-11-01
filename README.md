@@ -1,36 +1,34 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Transporte Lehman — Landing
 
-## Getting Started
+Landing page de [Transporte Lehman](https://instagram.com/transportelehman): transporte de cargas generales Buenos Aires – Tierra del Fuego.
 
-First, run the development server:
+Next.js (App Router) + Tailwind CSS v4. Implementada desde el handoff de Claude Design (sistema "Industry").
+
+## Desarrollo
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Estructura
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- `app/` — layout con metadata SEO, `page.tsx` (secciones + JSON-LD), `sitemap.ts`, `robots.ts`, `opengraph-image.tsx`, `icon.tsx`
+- `app/globals.css` — tokens del design system (`@theme`) y clases de componente (`.blueprint`, `.btn`, `.input`, `.seg`…)
+- `components/sections/` — una sección por archivo
+- `components/QuoteForm.tsx` — formulario de cotización: arma el mensaje y abre WhatsApp
+- `components/Motion.tsx` — reveals al hacer scroll y contadores
+- `lib/site.ts` — datos de contacto, clientes, paradas de la ruta
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Deploy (Vercel)
 
-## Learn More
+Conectado a Vercel; cada push a `main` despliega a producción.
 
-To learn more about Next.js, take a look at the following resources:
+### Dominio propio
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Cuando esté comprado `transportelehman.com.ar`:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Agregarlo en Vercel → Project → Settings → Domains.
+2. Definir `NEXT_PUBLIC_SITE_URL=https://transportelehman.com.ar` en las variables de entorno de Production y redeployar.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Sin esa variable, canonical, sitemap y Open Graph usan la URL de producción de Vercel (`VERCEL_PROJECT_PRODUCTION_URL`).

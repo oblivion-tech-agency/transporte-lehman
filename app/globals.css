@@ -1,26 +1,225 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* Industry design-system tokens (source: Claude Design handoff, styles.css). */
+@theme {
+  --color-bg: #f2f2f3;
+  --color-surface: #e9e9ea;
+  --color-text: #1d1f20;
+  --color-accent: #5980a6;
+  --color-divider: color-mix(in srgb, #1d1f20 16%, transparent);
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-accent-100: #eef6ff;
+  --color-accent-200: #d6ebff;
+  --color-accent-300: #b5d9fd;
+  --color-accent-400: #94bce3;
+  --color-accent-500: #749dc4;
+  --color-accent-600: #597ea3;
+  --color-accent-700: #416180;
+  --color-accent-800: #2c455d;
+  --color-accent-900: #1d2d3d;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  --color-brand: #2443b0;
+  --color-brand-deep: #13235f;
+  --color-brand-bright: #4f74e8;
+  --color-brand-sky: #a9c0ff;
+
+  --radius-md: 4px;
+
+  --shadow-sm: 0 1px 2px color-mix(in srgb, #2b2b2d 14%, transparent);
+  --shadow-md: 0 3px 10px color-mix(in srgb, #2b2b2d 16%, transparent);
+  --shadow-lg: 0 12px 32px color-mix(in srgb, #2b2b2d 22%, transparent);
+
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-emph: cubic-bezier(0.05, 0.7, 0.1, 1);
+
+  --animate-drift-16: lh-drift 16s ease-in-out infinite alternate;
+  --animate-drift-14: lh-drift 14s ease-in-out infinite alternate;
+  --animate-road: lh-road 1.2s linear infinite;
+  --animate-truck: lh-truck 7s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  --animate-marquee: lh-marquee 28s linear infinite;
+  --animate-pulse-dot: lh-pulse 1.6s ease-out infinite;
+  --animate-pulse-fab: lh-pulse 2.4s ease-out infinite;
+
+  @keyframes lh-drift {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+  }
+  @keyframes lh-road {
+    to { background-position: -96px 0; }
+  }
+  @keyframes lh-truck {
+    0% { left: 0%; }
+    100% { left: 100%; }
+  }
+  @keyframes lh-marquee {
+    to { transform: translateX(-50%); }
+  }
+  @keyframes lh-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(79, 116, 232, 0.6); }
+    100% { box-shadow: 0 0 0 14px rgba(79, 116, 232, 0); }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@theme inline {
+  --font-heading: var(--font-barlow-condensed), system-ui, sans-serif;
+  --font-body: var(--font-barlow), system-ui, sans-serif;
+}
+
+:root {
+  --font-heading-weight: 600;
+  --space-1: 3.4px;
+  --space-2: 6.8px;
+  --space-3: 10.2px;
+  --space-4: 13.6px;
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.55;
+    font-weight: 400;
+    text-wrap: pretty;
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-body);
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    font-weight: var(--font-heading-weight);
+    line-height: 1.12;
+    letter-spacing: -0.015em;
+    margin: 0 0 var(--space-2);
+  }
+  p { margin: 0 0 var(--space-3); }
+  a { color: var(--color-accent-700); text-underline-offset: 3px; }
+  a:hover { color: var(--color-accent-900); }
+  img { display: block; max-width: 100%; }
+  figure { margin: 0; }
+  :focus { outline: none; }
+  :focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  ::selection { background: color-mix(in srgb, var(--color-accent) 30%, transparent); }
+}
+
+@layer components {
+  /* — blueprint frame with "+" registration marks — */
+  .blueprint {
+    position: relative;
+    border: 1px solid var(--color-divider);
+    border-radius: 0;
+  }
+  .blueprint > .corner {
+    position: absolute; width: 11px; height: 11px;
+    color: color-mix(in srgb, var(--color-text) 55%, transparent);
+  }
+  .blueprint > .corner::before, .blueprint > .corner::after {
+    content: ""; position: absolute; background: currentColor;
+  }
+  .blueprint > .corner::before { left: 5px; top: 0; width: 1px; height: 100%; }
+  .blueprint > .corner::after { top: 5px; left: 0; width: 100%; height: 1px; }
+  .blueprint > .corner.tl { top: -6px; left: -6px; }
+  .blueprint > .corner.tr { top: -6px; right: -6px; }
+  .blueprint > .corner.bl { bottom: -6px; left: -6px; }
+  .blueprint > .corner.br { bottom: -6px; right: -6px; }
+
+  /* — buttons — */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    cursor: pointer; text-decoration: none;
+    font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+    font-size: 14px; line-height: 1.2; color: var(--color-text);
+    background: transparent; border: 1px solid var(--color-divider);
+    padding: var(--space-2) calc(var(--space-3) * 1.2);
+    border-radius: 0;
+  }
+  .btn svg { display: block; }
+  .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+  .btn-primary { background: var(--color-accent); color: var(--color-bg); border-color: var(--color-accent); }
+  .btn-primary:hover { background: var(--color-accent-600); }
+  .btn-primary:active { background: var(--color-accent-700); }
+  .btn-secondary { border-color: var(--color-divider); }
+  .btn-secondary:hover { background: color-mix(in srgb, var(--color-text) 7%, transparent); }
+  .btn-secondary:active { background: color-mix(in srgb, var(--color-text) 14%, transparent); }
+  .btn-ghost { color: var(--color-accent); padding-inline: var(--space-1); border-color: transparent; }
+  .btn-ghost:hover { background: color-mix(in srgb, var(--color-accent) 10%, transparent); }
+  .btn-ghost:active { background: color-mix(in srgb, var(--color-accent) 18%, transparent); }
+
+  /* — forms — */
+  .field > label {
+    display: block; font-size: 12px; margin-bottom: 5px;
+    color: color-mix(in srgb, var(--color-text) 70%, transparent);
+  }
+  .input {
+    width: 100%; min-height: 36px; padding: 6px 10px; font: inherit;
+    font-size: 14px; color: var(--color-text); caret-color: var(--color-accent);
+    background: var(--color-surface);
+    border: 1px solid var(--color-divider); border-radius: 0;
+  }
+  .input:hover { border-color: color-mix(in srgb, var(--color-text) 45%, transparent); }
+  .input:focus-visible { border-color: var(--color-accent); outline-offset: 0; }
+  textarea.input { min-height: 90px; resize: vertical; }
+  /* 16px on phones so iOS Safari doesn't zoom into the field. */
+  @media (max-width: 639px) {
+    .input { font-size: 16px; }
+  }
+  .seg-opt input {
+    position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none;
+  }
+  .seg {
+    display: inline-flex; overflow: hidden;
+    border: 1px solid var(--color-divider); border-radius: 0;
+  }
+  .seg-opt {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 7px 12px; font-size: 13px; cursor: pointer;
+  }
+  .seg-opt + .seg-opt { border-left: 1px solid var(--color-divider); }
+  .seg-opt:has(input:checked) { background: var(--color-accent); color: var(--color-bg); }
+  .seg-opt:not(:has(input:checked)):hover { background: color-mix(in srgb, var(--color-text) 7%, transparent); }
+  .seg-opt:has(input:focus-visible) { outline: 2px solid var(--color-accent); outline-offset: -2px; }
+
+  /* — navigation — */
+  .nav {
+    display: flex; align-items: center; gap: var(--space-4);
+  }
+  .nav-brand { margin-right: auto; }
+  .nav a { color: inherit; text-decoration: none; font-size: 14px; }
+  .nav a:hover { color: var(--color-accent); }
+
+  /* — shared section furniture — */
+  .eyebrow {
+    display: block; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase;
+    font-weight: 600; color: var(--color-brand); margin-bottom: 12px;
+  }
+  .rule {
+    height: 2px; margin-bottom: 32px;
+    background: linear-gradient(90deg, var(--color-brand) 0 64px, var(--color-divider) 64px);
+  }
+  .h-section {
+    font-size: clamp(32px, 4vw, 48px); line-height: 1.05; text-transform: uppercase; margin: 0;
+  }
+}
+
+/* — motion — */
+@keyframes lh-rise {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes lh-word {
+  from { opacity: 0; transform: translateY(0.5em); }
+  to { opacity: 1; transform: none; }
+}
+/* Above-the-fold entrances run in CSS so they start at first paint, before hydration. */
+.rise { animation: lh-rise 650ms var(--ease-emph) both; animation-delay: var(--d, 0ms); }
+.word { display: inline-block; animation: lh-word 700ms var(--ease-emph) backwards; animation-delay: var(--d, 0ms); }
+
+/* Scroll reveals: hidden only once JS is known to run (the `js` class is set in <head>). */
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-reveal]:not(.revealed) { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; }
+  html { scroll-behavior: auto; }
 }

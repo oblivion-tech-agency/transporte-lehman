@@ -19,7 +19,7 @@ export const INSTAGRAM_HANDLE = "transportelehman";
 export const INSTAGRAM_URL = `https://instagram.com/${INSTAGRAM_HANDLE}`;
 
 export const CLIENTS = [
-  "Acusur S.A.",
+  "Acsur S.A.",
   "IPASA",
   "Vinisa Fueguina",
   "Río Chico S.A.",

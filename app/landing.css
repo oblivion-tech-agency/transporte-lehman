@@ -137,9 +137,6 @@ html[data-scrolled] .site-nav {
   .corridor { height: 340vh; }
 }
 
-.stop-name { animation: mline-rise 700ms var(--ease-out-expo) both; }
-.stop-meta { animation: fade-up 600ms var(--ease-out-expo) 120ms both; }
-
 .map-stop { transition: fill 300ms, stroke 300ms; }
 .map-stop[data-passed] { fill: var(--color-amber); stroke: var(--color-amber); }
 .map-label { transition: fill 300ms; }

@@ -110,8 +110,6 @@ export function Corridor() {
     };
   }, []);
 
-  const stop = STOPS[active];
-
   return (
     <section ref={sectionRef} id="ruta" aria-labelledby="ruta-title" className="corridor relative bg-night text-ink">
       <div className="corridor-sticky overflow-hidden">
@@ -130,28 +128,48 @@ export function Corridor() {
               Bajá y recorré el corredor.
             </p>
 
-            <div className="pt-2 lg:mt-12" aria-live="polite">
+            <div className="pt-2 lg:mt-12">
               <div className="flex items-end justify-between gap-4">
-                {/* Reserve two lines so long names (Comodoro Rivadavia) don't shift the layout. */}
-                <div key={stop.name} className="flex min-h-[calc(2*0.95*clamp(34px,4vw,56px)+20px)] min-w-0 flex-col justify-end">
-                  <span className="mline">
-                    <span className="stop-name font-heading text-[clamp(34px,4vw,56px)] leading-[0.95] font-bold uppercase">
-                      {stop.name}
-                    </span>
-                  </span>
-                  <span className="stop-meta mt-1 block text-[14px] text-muted">{stop.prov}</span>
+                {/* Hidden stops share the same grid cell so wrapping never resizes the map. */}
+                <div className="grid min-w-0" aria-live="polite">
+                  {STOPS.map((stop, i) => (
+                    <div
+                      key={stop.name}
+                      aria-hidden={i !== active}
+                      className={`col-start-1 row-start-1 flex min-w-0 flex-col justify-end ${i === active ? "" : "invisible"}`}
+                    >
+                      <span className="font-heading text-[clamp(34px,4vw,56px)] leading-[0.95] font-bold uppercase">
+                        {stop.name}
+                      </span>
+                      <span className="mt-1 block text-[14px] text-muted">{stop.prov}</span>
+                    </div>
+                  ))}
                 </div>
                 <div className="shrink-0 text-right font-heading">
-                  <span className="block text-[clamp(30px,3.2vw,44px)] leading-none font-bold text-amber tabular-nums">
-                    <span ref={kmRef}>{fmt(STOPS[STOPS.length - 1].kmN)}</span>
-                    <span className="text-[0.55em] text-ink-dim"> km</span>
-                  </span>
+                  <div className="grid text-[clamp(30px,3.2vw,44px)] leading-none font-bold text-amber tabular-nums">
+                    <span className="invisible col-start-1 row-start-1" aria-hidden="true">
+                      {fmt(STOPS[STOPS.length - 1].kmN)}
+                      <span className="text-[0.55em]"> km</span>
+                    </span>
+                    <span className="col-start-1 row-start-1">
+                      <span ref={kmRef}>{fmt(STOPS[STOPS.length - 1].kmN)}</span>
+                      <span className="text-[0.55em] text-ink-dim"> km</span>
+                    </span>
+                  </div>
                   <span className="mt-1.5 block font-body text-[12px] text-muted">desde Buenos Aires</span>
                 </div>
               </div>
-              <p key={`${stop.name}-note`} className="stop-meta mt-4 mb-0 max-w-[48ch] text-[16px] leading-[1.55] text-ink-dim">
-                {stop.note}
-              </p>
+              <div className="mt-4 grid max-w-[48ch] text-[16px] leading-[1.55] text-ink-dim" aria-live="polite">
+                {STOPS.map((stop, i) => (
+                  <p
+                    key={stop.name}
+                    aria-hidden={i !== active}
+                    className={`col-start-1 row-start-1 m-0 ${i === active ? "" : "invisible"}`}
+                  >
+                    {stop.note}
+                  </p>
+                ))}
+              </div>
               <div className="mt-5 h-0.5 bg-night-line">
                 <div ref={barRef} className="h-full origin-left bg-amber" />
               </div>
